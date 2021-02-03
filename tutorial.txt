@@ -67,10 +67,10 @@ mysql> select * from user_roles;
 +--------------------+--------------------+-----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
 2 rows in set (0.00 sec)
 
-10.Dropping a procedure
+10. Dropping a procedure
    -> mysql> drop procedure insertdefaultroles;
    
-11.Adding variables inside procedure
+11. Adding variables inside procedure
    -> DROP PROCEDURE insertdefaultroles; 
    -> DELIMITER //
    -> CREATE PROCEDURE insertdefaultroles()
