@@ -1,0 +1,117 @@
+Operational activity for stored rocedures:
+
+1. create database in db if don't have database.
+   mysql> create schema procedure_training;
+   
+2. mysql> use procedure_training;
+
+3. create procedure
+   -> DELIMITER //
+   -> CREATE PROCEDURE myfirstprocedure()
+   -> begin
+   -> select 'This is my first procedure';
+   -> end //
+   
+4. Once the query is executed successfully, you can call the procedure using a simple command shown below
+   -> delimiter ;
+   -> call myfirstprocedure();
+   
+   output:
+   +----------------------------+
+| This is my first procedure |
++----------------------------+
+| This is my first procedure |
++----------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+5. Creating a procedure to insert records
+   -> CREATE TABLE `procedure_training`.`user_roles` (
+      `id` INT NOT NULL,
+      `rolename` VARCHAR(45) NULL,
+      `userid` INT NULL,
+      PRIMARY KEY (`id`));
+  
+6. The next step is to create a procedure that insert a bunch of roles for userid value 1. This can be done using below procedure.
+   -> DELIMITER //
+   -> CREATE PROCEDURE insertdefaultroles()
+   -> begin
+   -> insert into user_roles values (1, 'admin',1), (2, 'employee',1),(3,'learner',1);
+   -> end //
+
+7. change delimiter
+   -> delimiter ;
+
+8. mysql> call  insertdefaultroles();
+Query OK, 3 rows affected (0.03 sec)
+
+output:
+mysql> select * from user_roles;
++----+----------+--------+
+| id | rolename | userid |
++----+----------+--------+
+|  1 | admin    |      1 |
+|  2 | employee |      1 |
+|  3 | learner  |      1 |
++----+----------+--------+
+3 rows in set (0.00 sec)
+
+9. show procedure which created in the particuler db
+   -> mysql> show procedure status where db = 'procedure_training';
++--------------------+--------------------+-----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| Db                 | Name               | Type      | Definer        | Modified            | Created             | Security_type | Comment | character_set_client | collation_connection | Database Collation |
++--------------------+--------------------+-----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| procedure_training | insertdefaultroles | PROCEDURE | root@localhost | 2021-02-03 13:00:11 | 2021-02-03 13:00:11 | DEFINER       |         | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+| procedure_training | myfirstprocedure   | PROCEDURE | root@localhost | 2021-02-03 12:46:22 | 2021-02-03 12:46:22 | DEFINER       |         | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
++--------------------+--------------------+-----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+2 rows in set (0.00 sec)
+
+10.Dropping a procedure
+   -> mysql> drop procedure insertdefaultroles;
+   
+11.Adding variables inside procedure
+   -> DROP PROCEDURE insertdefaultroles; 
+   -> DELIMITER //
+   -> CREATE PROCEDURE insertdefaultroles()
+   -> BEGIN
+   -> DECLARE pkvalue int;
+   -> select max(id) into pkvalue from user_roles;
+   -> insert into user_roles values (pkvalue+1, 'admin',1), (pkvalue+2, 'employee',1),(pkvalue+3,'learner',1);
+   -> END //
+   -> DELIMITER;
+   
+ 12. Adding procedure parameters
+    -> delimiter //
+    -> CREATE PROCEDURE insertdefaultroles(uid int)
+    -> begin
+    -> DECLARE pkvalue int ;
+    -> select max(id) into pkvalue from user_roles;
+    -> insert into user_roles values (pkvalue+1, 'admin',uid), (pkvalue+2, 'employee',uid),(pkvalue+3,'learner',uid);
+    -> end //
+    
+ 13. Returning a specific value from a procedure
+    -> DELIMITER //
+    -> CREATE PROCEDURE countusers(role varchar(45))
+    -> BEGIN
+    -> DECLARE usercount int ;
+    -> select count(*) into usercount from user_roles where rolename = role;
+    -> select usercount;
+    -> END //
+    -> DELIMITER ;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
