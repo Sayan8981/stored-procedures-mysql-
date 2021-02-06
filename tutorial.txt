@@ -99,6 +99,18 @@ mysql> select * from user_roles;
     -> select usercount;
     -> END //
     -> DELIMITER ;
+    
+  14. Conditional flows in a procedure
+    -> CREATE PROCEDURE firstcaseprocedure(variable varchar(10))
+    -> BEGIN
+    -> CASE variable
+    -> WHEN 'first' THEN select 'First condition executed';
+    -> WHEN 'second'  THEN select 'Second condition executed';
+    -> WHEN 'third'  THEN select 'Third condition executed';
+    -> ELSE select 'Else condition executed';
+    -> END CASE;
+    -> END; 
+    
  
  
  
